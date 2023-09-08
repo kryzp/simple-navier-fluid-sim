@@ -21,8 +21,8 @@ inline void util_swap(T& x, T& y)
 #define MAP_HEIGHT (WINDOW_HEIGHT / SCALE)
 #define SWAP(_x, _y) (util_swap((_x), (_y)))
 #define ITERATIONS 50
-#define VISCOSITY 0.0
-#define DIFFUSION_RATE 0.0
+#define VISCOSITY 50.0
+#define DIFFUSION_RATE 1.0
 
 struct Cell
 {
@@ -101,16 +101,12 @@ void diffuse_density(double dt)
 				int left = INDEX(x - 1, y);
 				int right = INDEX(x + 1, y);
 
-				cells[i].density = cells_prev[i].density;
-
-				/*
 				cells[i].density = (cells_prev[i].density + a*(
-					cells[left].density +
-					cells[right].density +
-					cells[top].density +
-					cells[bottom].density
-				)) / (1.0 + 4.0*a);
-				 */
+					cells[left].density / 4 +
+					cells[right].density / 4 +
+					cells[top].density / 4 +
+					cells[bottom].density / 4
+				)) / (1.0 + a);
 			}
 		}
 
